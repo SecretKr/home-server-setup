@@ -39,6 +39,7 @@ services:
 
       # 3. Mac Optimizations
       - MODEL=MacSamba
+      - AVAHI_DISABLE=true
 
     volumes:
       - /data/storage:/shares/storage
