@@ -15,32 +15,32 @@ services:
 
   # 2. Samba - File Sharing (NAS)
   samba:
-    image: dperson/samba
+    image: ghcr.io/servercontainers/samba:latest
     container_name: samba
     restart: unless-stopped
+    network_mode: host # Recommended for auto-discovery (Bonjour/mDNS) to work on Mac
     environment:
-      - TZ=Asia/Bangkok
-      - WORKGROUP=WORKGROUP
-      - PERMISSIONS=true
-      - USERID=1000
-      - GROUPID=1000
+      # 1. Define User (Format: ACCOUNT_<username>=password)
+      - ACCOUNT_user=password
+
+      # 2. Force User ID 1000 (Matches your Host/Jellyfin/qBittorrent)
+      - UID_user=1000
+      - GROUPS_user=1000
+
+      # 3. Share Definitions
+      - SAMBA_VOLUME_CONFIG_storage=[path=/shares/storage; valid users=user; guest ok=no; read only=no; browseable=yes]
+      - SAMBA_VOLUME_CONFIG_torrents=[path=/shares/torrents; valid users=user; guest ok=no; read only=no; browseable=yes]
+
+      # 4. Apple/Mac Optimizations are ON by default in this image.
+      - MODEL=MacSamba
+
     volumes:
-      - /data/storage:/mount/storage
-      - /data/torrents:/mount/torrents
-    ports:
-      - 139:139
-      - 445:445
-    command: >
-      -u "user;password"
-      -s "Storage;/mount/storage;yes;no;no;user"
-      -s "Torrents;/mount/torrents;yes;no;no;user"
-      -g "vfs objects = catia fruit streams_xattr"
-      -g "fruit:metadata = stream"
-      -g "fruit:model = MacSamba"
-      -g "fruit:veto_appledouble = no"
-      -g "fruit:posix_rename = yes" 
-      -g "fruit:zero_file_id = yes"
-      -g "fruit:delete_empty_adfiles = yes"
+      # Map your host folders to the internal /shares directory
+      - /data/storage:/shares/storage
+      - /data/torrents:/shares/torrents
+
+      # Required for Avahi (mDNS) to talk to the host network for discovery
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
 
   # 3. Homebridge - Smart Home Bridge
   homebridge:
