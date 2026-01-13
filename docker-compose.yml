@@ -18,28 +18,31 @@ services:
     image: ghcr.io/servercontainers/samba:latest
     container_name: samba
     restart: unless-stopped
-    network_mode: host # Recommended for auto-discovery (Bonjour/mDNS) to work on Mac
+    # Network Mode Host is CRITICAL for Mac Discovery to work
+    network_mode: host
+
+    # These permissions fix the "open_ep" and "unhealthy" errors
+    cap_add:
+      - NET_ADMIN
+    security_opt:
+      - apparmor:unconfined
+
     environment:
-      # 1. Define User (Format: ACCOUNT_<username>=password)
+      # 1. User Configuration
       - ACCOUNT_user=password
-
-      # 2. Force User ID 1000 (Matches your Host/Jellyfin/qBittorrent)
       - UID_user=1000
-      - GROUPS_user=1000
+      - GID_user=1000
 
-      # 3. Share Definitions
+      # 2. Share Definitions
       - SAMBA_VOLUME_CONFIG_storage=[path=/shares/storage; valid users=user; guest ok=no; read only=no; browseable=yes]
       - SAMBA_VOLUME_CONFIG_torrents=[path=/shares/torrents; valid users=user; guest ok=no; read only=no; browseable=yes]
 
-      # 4. Apple/Mac Optimizations are ON by default in this image.
+      # 3. Mac Optimizations
       - MODEL=MacSamba
 
     volumes:
-      # Map your host folders to the internal /shares directory
       - /data/storage:/shares/storage
       - /data/torrents:/shares/torrents
-
-      # Required for Avahi (mDNS) to talk to the host network for discovery
       - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
 
   # 3. Homebridge - Smart Home Bridge
