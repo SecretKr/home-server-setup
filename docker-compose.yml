@@ -32,8 +32,8 @@ services:
       - MODEL=MacSamba
 
       # Your shares
-      - SAMBA_VOLUME_CONFIG_storage=path=/shares/storage;valid users=user;guest ok=no;read only=no;browseable=yes
-      - SAMBA_VOLUME_CONFIG_torrents=path=/shares/torrents;valid users=user;guest ok=no;read only=no;browseable=yes
+      - "SAMBA_VOLUME_CONFIG_storage=[storage];path=/shares/storage;valid users=user;guest ok=no;read only=no;browseable=yes"
+      - "SAMBA_VOLUME_CONFIG_torrents=[torrents];path=/shares/torrents;valid users=user;guest ok=no;read only=no;browseable=yes"
 
     volumes:
       - /data/storage:/shares/storage
