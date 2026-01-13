@@ -22,6 +22,8 @@ services:
       - TZ=Asia/Bangkok
       - WORKGROUP=WORKGROUP
       - PERMISSIONS=true
+      - USERID=1000
+      - GROUPID=1000
     volumes:
       - /data/storage:/mount/storage
       - /data/torrents:/mount/torrents
@@ -38,7 +40,6 @@ services:
       -g "fruit:veto_appledouble = no"
       -g "fruit:posix_rename = yes" 
       -g "fruit:zero_file_id = yes"
-      -g "fruit:wipe_intentionally_left_blank_rfork = yes" 
       -g "fruit:delete_empty_adfiles = yes"
 
   # 3. Homebridge - Smart Home Bridge
