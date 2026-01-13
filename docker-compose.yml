@@ -18,33 +18,30 @@ services:
     image: ghcr.io/servercontainers/samba:latest
     container_name: samba
     restart: unless-stopped
-    # Network Mode Host is CRITICAL for Mac Discovery to work
-    network_mode: host
 
-    # These permissions fix the "open_ep" and "unhealthy" errors
-    cap_add:
-      - NET_ADMIN
-    security_opt:
-      - apparmor:unconfined
+    # 1. DISABLING HOST NETWORK (Fixes the crash loop)
+    # network_mode: host
+    ports:
+      - "445:445" # SMB Port
 
+    # 2. DISABLE DISCOVERY SERVICES (Fixes "testparm" & "wsdd2" errors)
     environment:
-      # 1. User Configuration
+      - WSDD2_DISABLE=1
+      - AVAHI_DISABLE=1
+
       - ACCOUNT_user=password
       - UID_user=1000
       - GID_user=1000
 
-      # 2. Share Definitions
       - SAMBA_VOLUME_CONFIG_storage=[path=/shares/storage; valid users=user; guest ok=no; read only=no; browseable=yes]
       - SAMBA_VOLUME_CONFIG_torrents=[path=/shares/torrents; valid users=user; guest ok=no; read only=no; browseable=yes]
 
-      # 3. Mac Optimizations
+      # Keep Mac Optimization (Metadata only, no network discovery)
       - MODEL=MacSamba
-      - AVAHI_DISABLE=true
 
     volumes:
       - /data/storage:/shares/storage
       - /data/torrents:/shares/torrents
-      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
 
   # 3. Homebridge - Smart Home Bridge
   homebridge:
