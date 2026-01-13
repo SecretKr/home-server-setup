@@ -18,30 +18,29 @@ services:
     image: ghcr.io/servercontainers/samba:latest
     container_name: samba
     restart: unless-stopped
-
-    # 1. DISABLING HOST NETWORK (Fixes the crash loop)
-    # network_mode: host
-    ports:
-      - "445:445" # SMB Port
-
-    # 2. DISABLE DISCOVERY SERVICES (Fixes "testparm" & "wsdd2" errors)
+    network_mode: host # Recommended for auto-discovery (Bonjour/mDNS) to work on Mac
     environment:
-      - WSDD2_DISABLE=1
-      - AVAHI_DISABLE=1
-
+      # 1. Define User (Format: ACCOUNT_<username>=password)
       - ACCOUNT_user=password
+
+      # 2. Force User ID 1000 (Matches your Host/Jellyfin/qBittorrent)
       - UID_user=1000
-      - GID_user=1000
+      - GROUPS_user=1000
 
-      - SAMBA_VOLUME_CONFIG_storage=[path=/shares/storage; valid users=user; guest ok=no; read only=no; browseable=yes]
-      - SAMBA_VOLUME_CONFIG_torrents=[path=/shares/torrents; valid users=user; guest ok=no; read only=no; browseable=yes]
+      # 3. Share Definitions
+      - SAMBA_VOLUME_CONFIG_storage=path=/shares/storage; valid users=user; guest ok=no; read only=no; browseable=yes
+      - SAMBA_VOLUME_CONFIG_torrents=path=/shares/torrents; valid users=user; guest ok=no; read only=no; browseable=yes
 
-      # Keep Mac Optimization (Metadata only, no network discovery)
+      # 4. Apple/Mac Optimizations are ON by default in this image.
       - MODEL=MacSamba
 
     volumes:
+      # Map your host folders to the internal /shares directory
       - /data/storage:/shares/storage
       - /data/torrents:/shares/torrents
+
+      # Required for Avahi (mDNS) to talk to the host network for discovery
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
 
   # 3. Homebridge - Smart Home Bridge
   homebridge:
