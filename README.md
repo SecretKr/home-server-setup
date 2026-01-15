@@ -8,9 +8,10 @@
 
 | Service         | Port/Address             | Description                 |
 | :-------------- | :----------------------- | :-------------------------- |
-| **Jellyfin**    | `http://<IP>:80`         | Media Streaming             |
+| **Homer**       | `http://<IP>:80`         | Dashboard                   |
 | **qBittorrent** | `http://<IP>:8080`       | Torrent Downloader          |
 | **Scrutiny**    | `http://<IP>:8081`       | SSD/Hard Drive Health       |
+| **Jellyfin**    | `http://<IP>:8096`       | Media Streaming             |
 | **Homebridge**  | `http://<IP>:8581`       | Smart Home Integration      |
 | **Portainer**   | `http://<IP>:9000`       | Server Management Dashboard |
 | **Samba (NAS)** | `\\<IP>` or `smb://<IP>` | File Access (Windows/Mac)   |
