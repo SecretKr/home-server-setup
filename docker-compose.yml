@@ -38,8 +38,8 @@ services:
       - UID_user=1000
       - GROUPS_user=1000
       - MODEL=MacSamba
-      - "SAMBA_VOLUME_CONFIG_storage=[storage];path=/shares/storage;valid users=user;guest ok=no;read only=no;browseable=yes"
-      - "SAMBA_VOLUME_CONFIG_torrents=[torrents];path=/shares/torrents;valid users=user;guest ok=no;read only=no;browseable=yes"
+      - "SAMBA_VOLUME_CONFIG_storage=[storage];path=/shares/storage;valid users=user;guest ok=no;read only=no;browseable=yes;veto files=/.DS_Store/.delete/._*/;delete veto files=yes"
+      - "SAMBA_VOLUME_CONFIG_torrents=[torrents];path=/shares/torrents;valid users=user;guest ok=no;read only=no;browseable=yes;veto files=/.DS_Store/.delete/._*/;delete veto files=yes"
 
     volumes:
       - /data/storage:/shares/storage
