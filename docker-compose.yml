@@ -29,20 +29,17 @@ services:
     container_name: samba
     restart: unless-stopped
     network_mode: host
-
     cap_add:
       - NET_ADMIN
-
     environment:
       - ACCOUNT_user=password
       - UID_user=1000
       - GROUPS_user=1000
       - MODEL=MacSamba
-      - "SAMBA_VOLUME_CONFIG_storage=[storage];path=/shares/storage;valid users=user;guest ok=no;read only=no;browseable=yes;veto files=/.DS_Store/.delete/._*/;delete veto files=yes"
-      - "SAMBA_VOLUME_CONFIG_data=[data];path=/shares/data;valid users=user;guest ok=no;read only=no;browseable=yes;veto files=/.DS_Store/.delete/._*/;delete veto files=yes"
-
+      - "SAMBA_GLOBAL_CONFIG_veto=veto files = /.DS_Store/.delete/._*/"
+      - "SAMBA_GLOBAL_CONFIG_delete_veto=delete veto files = yes"
+      - "SAMBA_VOLUME_CONFIG_data=[HomeServer];path=/shares/data;valid users=user;guest ok=no;read only=no;browseable=yes"
     volumes:
-      - /data/storage:/shares/storage
       - /data:/shares/data
       - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
 
