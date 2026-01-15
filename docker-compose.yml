@@ -1,4 +1,14 @@
 services:
+  dashboard:
+    image: b4bz/homer
+    container_name: dashboard
+    restart: unless-stopped
+    volumes:
+      - ./docker/homer/assets:/www/assets
+    ports:
+      - 80:8080
+    user: "1000:1000"
+
   # 1. Portainer - Web UI for managing Docker
   portainer:
     image: portainer/portainer-ce:latest
@@ -27,11 +37,7 @@ services:
       - ACCOUNT_user=password
       - UID_user=1000
       - GROUPS_user=1000
-
-      # Mac Optimizations (Enables vfs_fruit for Apple compatibility)
       - MODEL=MacSamba
-
-      # Your shares
       - "SAMBA_VOLUME_CONFIG_storage=[storage];path=/shares/storage;valid users=user;guest ok=no;read only=no;browseable=yes"
       - "SAMBA_VOLUME_CONFIG_torrents=[torrents];path=/shares/torrents;valid users=user;guest ok=no;read only=no;browseable=yes"
 
@@ -45,7 +51,7 @@ services:
     image: homebridge/homebridge:latest
     container_name: homebridge
     restart: unless-stopped
-    network_mode: host # Required for device discovery
+    network_mode: host
     volumes:
       - ./docker/homebridge:/homebridge
     logging:
@@ -60,8 +66,8 @@ services:
     container_name: qbittorrent
     restart: unless-stopped
     environment:
-      - PUID=1000 # Default user ID
-      - PGID=1000 # Default group ID
+      - PUID=1000
+      - PGID=1000
       - TZ=Asia/Bangkok
       - WEBUI_PORT=8080
     volumes:
@@ -109,10 +115,8 @@ services:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
     restart: unless-stopped
-    #network_mode: host
-
     ports:
-      - 80:8096
+      - 8096:8096
       - 8920:8920 # SSL Port (Optional)
       - 7359:7359/udp # Discovery (Optional)
       - 1900:1900/udp # DLNA (Optional)

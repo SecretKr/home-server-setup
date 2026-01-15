@@ -1,0 +1,51 @@
+---
+# Homepage configuration
+# ./docker/homer/assets/config.yml
+
+title: "Home Server"
+subtitle: "Dashboard"
+# logo: "assets/logo.png" # You can add a logo to the assets folder later
+# header: true
+
+# Set the theme (default, dark, light)
+theme: default
+
+# The services and links
+services:
+  - name: "Media & Storage"
+    icon: "fas fa-cloud"
+    items:
+      - name: "Jellyfin"
+        logo: "assets/tools/jellyfin.png"
+        subtitle: "Media Player"
+        tag: "Media"
+        url: "http://10.0.0.10:8096"
+        target: "_blank"
+
+      - name: "qBittorrent"
+        logo: "assets/tools/qbittorrent.png"
+        subtitle: "Downloader"
+        tag: "Downloads"
+        url: "http://10.0.0.10:8080"
+        target: "_blank"
+
+  - name: "Management"
+    icon: "fas fa-tools"
+    items:
+      - name: "Portainer"
+        logo: "assets/tools/portainer.png"
+        subtitle: "Docker Manager"
+        url: "http://10.0.0.10:9000"
+        target: "_blank"
+
+      - name: "Scrutiny"
+        logo: "assets/tools/scrutiny.png"
+        subtitle: "HDD Health"
+        url: "http://10.0.0.10:8081"
+        target: "_blank"
+
+      - name: "Homebridge"
+        logo: "assets/tools/homebridge.png"
+        subtitle: "Smart Home"
+        url: "http://10.0.0.10:8581"
+        target: "_blank"

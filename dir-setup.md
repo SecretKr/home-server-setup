@@ -8,6 +8,7 @@ sudo mkdir -p /data/torrents
 # Create folders for container configurations
 
 ```
+mkdir -p ./docker/homer/assets
 mkdir -p ~/docker/portainer
 mkdir -p ~/docker/homebridge
 mkdir -p ~/docker/qbittorrent/config
