@@ -38,7 +38,7 @@ services:
       - MODEL=MacSamba
       - "SAMBA_GLOBAL_CONFIG_veto=veto files = /.DS_Store/.delete/._*/"
       - "SAMBA_GLOBAL_CONFIG_delete_veto=delete veto files = yes"
-      - "SAMBA_VOLUME_CONFIG_data=[HomeServer];path=/shares/data;valid users=user;guest ok=no;read only=no;browseable=yes"
+      - "SAMBA_VOLUME_CONFIG_HomeServer=[HomeServer];path=/shares/data;valid users=user;guest ok=no;read only=no;browseable=yes"
     volumes:
       - /data:/shares/data
       - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
