@@ -1,10 +1,9 @@
----
 # Homepage configuration
-# ./docker/homer/assets/config.yml
+# cp ./homer-config/config.yml ./docker/homer/assets/config.yml
 
 title: "Home Server"
 subtitle: "Dashboard"
-# logo: "assets/logo.png" # You can add a logo to the assets folder later
+# logo: "assets/logo.png"
 # header: true
 
 # Set the theme (default, dark, light)
@@ -12,8 +11,11 @@ theme: default
 
 # The services and links
 services:
-  - name: "Media & Storage"
-    icon: "fas fa-cloud"
+  # ---------------------------------------------------------
+  # LOCAL NETWORK SECTION (10.0.0.x)
+  # ---------------------------------------------------------
+  - name: "Local Network"
+    icon: "fas fa-network-wired"
     items:
       - name: "Jellyfin"
         logo: "assets/tools/jellyfin.png"
@@ -29,9 +31,6 @@ services:
         url: "http://10.0.0.10:8080"
         target: "_blank"
 
-  - name: "Management"
-    icon: "fas fa-tools"
-    items:
       - name: "Portainer"
         logo: "assets/tools/portainer.png"
         subtitle: "Docker Manager"
@@ -48,4 +47,47 @@ services:
         logo: "assets/tools/homebridge.png"
         subtitle: "Smart Home"
         url: "http://10.0.0.10:8581"
+        target: "_blank"
+
+      - name: "Creality 3D"
+        icon: "fas fa-print"
+        subtitle: "3D Printer"
+        url: "http://10.0.0.100"
+        target: "_blank"
+
+  # ---------------------------------------------------------
+  # TAILSCALE NETWORK SECTION (Remote Access)
+  # ---------------------------------------------------------
+  - name: "Tailscale Network"
+    icon: "fas fa-shield-alt"
+    items:
+      - name: "Jellyfin (Remote)"
+        logo: "assets/tools/jellyfin.png"
+        subtitle: "Tailscale"
+        url: "http://100.100.10.10:8096"
+        target: "_blank"
+
+      - name: "qBittorrent (Remote)"
+        logo: "assets/tools/qbittorrent.png"
+        subtitle: "Downloader"
+        tag: "Downloads"
+        url: "http://100.100.10.10:8080"
+        target: "_blank"
+
+      - name: "Portainer (Remote)"
+        logo: "assets/tools/portainer.png"
+        subtitle: "Tailscale"
+        url: "http://100.100.10.10:9000"
+        target: "_blank"
+
+      - name: "Scrutiny (Remote)"
+        logo: "assets/tools/scrutiny.png"
+        subtitle: "HDD Health"
+        url: "http://100.100.10.10:8081"
+        target: "_blank"
+
+      - name: "Homebridge (Remote)"
+        logo: "assets/tools/homebridge.png"
+        subtitle: "Tailscale"
+        url: "http://100.100.10.10:8581"
         target: "_blank"

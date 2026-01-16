@@ -75,24 +75,7 @@ services:
       - 6881:6881
       - 6881:6881/udp
 
-  # 5. Tailscale - VPN / Remote Access
-  tailscale:
-    image: tailscale/tailscale:latest
-    container_name: tailscale
-    hostname: home-server
-    restart: unless-stopped
-    environment:
-      - TS_STATE_DIR=/var/lib/tailscale
-      - TS_USERSPACE=false
-      - TS_EXTRA_ARGS=--accept-dns=false --advertise-exit-node
-    volumes:
-      - ./docker/tailscale:/var/lib/tailscale
-      - /dev/net/tun:/dev/net/tun
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
-
-  # 6. Scrutiny - HDD Health Monitoring
+  # 5. Scrutiny - HDD Health Monitoring
   scrutiny:
     image: ghcr.io/analogj/scrutiny:master-omnibus
     container_name: scrutiny
@@ -108,7 +91,7 @@ services:
       - ./docker/scrutiny/config:/opt/scrutiny/config
       - ./docker/scrutiny/influxdb:/opt/scrutiny/influxdb
 
-  # 7. Jellyfin Media Server
+  # 6. Jellyfin Media Server
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin

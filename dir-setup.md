@@ -14,7 +14,6 @@ mkdir -p ~/docker/homebridge
 mkdir -p ~/docker/qbittorrent/config
 mkdir -p ~/docker/scrutiny/config
 mkdir -p ~/docker/scrutiny/influxdb
-mkdir -p ~/docker/tailscale
 mkdir -p ~/docker/jellyfin/config
 ```
 
