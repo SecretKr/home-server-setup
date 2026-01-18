@@ -70,7 +70,7 @@ services:
     volumes:
       - ./docker/qbittorrent/config:/config
       - /data/torrents:/downloads # Saves directly to your NAS folder
-      - /mnt/nas/torrents:/downloads-movies
+      - /mnt/nas/Movies:/downloads-nas
     ports:
       - 8080:8080
       - 6881:6881
