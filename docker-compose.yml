@@ -70,6 +70,7 @@ services:
     volumes:
       - ./docker/qbittorrent/config:/config
       - /data/torrents:/downloads # Saves directly to your NAS folder
+      - /mnt/nas/torrents:/downloads-movies
     ports:
       - 8080:8080
       - 6881:6881
@@ -112,6 +113,7 @@ services:
       - /data/torrents:/data/torrents
       # Optional: Add storage if you have other media there
       - /data/storage:/data/storage
+      - /mnt/nas:/data/nas
     devices:
       # Hardware Acceleration (Intel QuickSync)
       # Essential for smooth playback on older CPUs
