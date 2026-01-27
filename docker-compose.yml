@@ -1,0 +1,118 @@
+services:
+  # Homer - Web UI
+  dashboard:
+    image: b4bz/homer
+    container_name: dashboard
+    restart: unless-stopped
+    volumes:
+      - ./configs/homer:/www/assets
+    ports:
+      - "127.0.0.1:81:8080"
+    user: "1000:1000"
+
+  # Portainer - Web UI for managing Docker
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ~/home-server-data/portainer:/data
+    ports:
+      - 9000:9000
+
+  # Samba - File Sharing (NAS)
+  samba:
+    image: ghcr.io/servercontainers/samba:latest
+    container_name: samba
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - ACCOUNT_user=${SAMBA_PASSWORD}
+      - UID_user=1000
+      - GROUPS_user=1000
+      - MODEL=MacSamba
+      - "SAMBA_GLOBAL_CONFIG_veto=veto files = /.DS_Store/.delete/._*/"
+      - "SAMBA_GLOBAL_CONFIG_delete_veto=delete veto files = yes"
+      - "SAMBA_VOLUME_CONFIG_HomeServer=[HomeServer];path=/shares/data;valid users=user;guest ok=no;read only=no;browseable=yes"
+    volumes:
+      - /data:/shares/data
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+
+  # Homebridge - Smart Home Bridge
+  homebridge:
+    image: homebridge/homebridge:latest
+    container_name: homebridge
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ~/home-server-data/homebridge:/homebridge
+    logging:
+      driver: json-file
+      options:
+        max-size: "10mb"
+        max-file: "1"
+
+  # qBittorrent - Downloader
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Bangkok
+      - WEBUI_PORT=8080
+    volumes:
+      - ~/home-server-data/qbittorrent/config:/config
+      - /data/torrents:/downloads # Saves directly to your NAS folder
+      - /mnt/nas/Movies:/downloads-nas
+    ports:
+      - 8080:8080
+      - 6881:6881
+      - 6881:6881/udp
+
+  # Scrutiny - HDD Health Monitoring
+  scrutiny:
+    image: ghcr.io/analogj/scrutiny:master-omnibus
+    container_name: scrutiny
+    restart: unless-stopped
+    cap_add:
+      - SYS_RAWIO
+    ports:
+      - 8081:8080
+    devices:
+      - /dev/sda:/dev/sda
+    volumes:
+      - /run/udev:/run/udev:ro
+      - ~/home-server-data/scrutiny/config:/opt/scrutiny/config
+      - ~/home-server-data/scrutiny/influxdb:/opt/scrutiny/influxdb
+
+  # Jellyfin Media Server
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    ports:
+      - 8096:8096
+      - 8920:8920 # SSL Port (Optional)
+      - 7359:7359/udp # Discovery (Optional)
+      - 1900:1900/udp # DLNA (Optional)
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Bangkok
+    volumes:
+      - ~/home-server-data/jellyfin/config:/config
+      - /data/torrents:/data/torrents
+      - /data/storage:/data/storage
+      - /mnt/nas:/data/nas
+    devices:
+      # Hardware Acceleration (Intel QuickSync)
+      - /dev/dri:/dev/dri

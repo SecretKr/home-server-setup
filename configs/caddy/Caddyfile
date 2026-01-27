@@ -1,0 +1,32 @@
+home-server.taild50569.ts.net:443 {
+    tls /etc/caddy/certs/cert.pem /etc/caddy/certs/key.pem
+    reverse_proxy http://localhost:81
+}
+
+home-server.taild50569.ts.net:8097 {
+    tls /etc/caddy/certs/cert.pem /etc/caddy/certs/key.pem
+    reverse_proxy localhost:8096
+}
+
+home-server.taild50569.ts.net:8082 {
+    tls /etc/caddy/certs/cert.pem /etc/caddy/certs/key.pem
+    reverse_proxy localhost:8080 {
+        header_up Host localhost
+        header_up Origin http://localhost
+    }
+}
+
+home-server.taild50569.ts.net:9001 {
+    tls /etc/caddy/certs/cert.pem /etc/caddy/certs/key.pem
+    reverse_proxy localhost:9000
+}
+
+home-server.taild50569.ts.net:8582 {
+    tls /etc/caddy/certs/cert.pem /etc/caddy/certs/key.pem
+    reverse_proxy localhost:8581
+}
+
+# This handle Local Network (HTTP Port 80)
+http://10.0.0.10, http://home-server.local {
+    reverse_proxy localhost:81
+}
