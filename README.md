@@ -11,10 +11,11 @@
 | **Homer**       | `http://<IP>:81`          | Dashboard                   |
 | **qBittorrent** | `http://<IP>:8080`        | Downloads                   |
 | **Jellyfin**    | `http://<IP>:8096`        | Media Streaming             |
-| **Samba**       | `\\<IP>`                  | File Access                 |
 | **Portainer**   | `http://<IP>:9000`        | Docker Management           |
 | **Scrutiny**    | `http://<IP>:8081`        | HDD Health                  |
+| **Beszel**      | `http://<IP>:8090`        | Resource Monitor            |
 | **Homebridge**  | `http://<IP>:8581`        | Smart Home                  |
+| **Samba**       | `\\<IP>`                  | File Access                 |
 
 ---
 
