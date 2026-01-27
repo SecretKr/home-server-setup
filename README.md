@@ -28,7 +28,7 @@ Create storage and configuration paths.
 sudo mkdir -p /data/{storage,torrents} && sudo chmod -R 777 /data
 
 # Container Persistence
-mkdir -p ~/home-server-data/{portainer,homebridge,qbittorrent/config,scrutiny/config,scrutiny/influxdb,jellyfin/config}
+mkdir -p ~/home-server-data/{portainer,homebridge,qbittorrent/config,scrutiny/config,scrutiny/influxdb,jellyfin/config,beszel/hub}
 ```
 
 ### 2. Configure & Deploy
