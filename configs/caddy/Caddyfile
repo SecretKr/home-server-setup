@@ -26,7 +26,7 @@ home-server.taild50569.ts.net:8582 {
     reverse_proxy localhost:8581
 }
 
-home-server.taild50569.ts.net:8090 {
+home-server.taild50569.ts.net:8091 {
     tls /etc/caddy/certs/cert.pem /etc/caddy/certs/key.pem
     reverse_proxy localhost:8090
 }

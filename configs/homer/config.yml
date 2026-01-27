@@ -80,7 +80,7 @@ services:
       - name: "Beszel (Remote)"
         icon: "assets/logos/beszel.png"
         subtitle: "Resource Monitor"
-        url: "https://home-server.taild50569.ts.net:8090"
+        url: "https://home-server.taild50569.ts.net:8091"
         target: "_blank"
 
       - name: "Homebridge (Remote)"
