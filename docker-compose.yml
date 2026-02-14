@@ -10,7 +10,7 @@ services:
             - ~/home-server-data/homarr/icons:/app/public/icons
             - ~/home-server-data/homarr/data:/data
         ports:
-            - 80:7575
+            - 81:7575
 
     # Portainer - Web UI for managing Docker
     portainer:
