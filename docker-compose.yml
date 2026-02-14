@@ -114,3 +114,13 @@ services:
         devices:
             # Hardware Acceleration (Intel QuickSync)
             - /dev/dri:/dev/dri
+
+    dashdot:
+        image: mauricenino/dashdot:latest
+        container_name: dashdot
+        restart: unless-stopped
+        privileged: true
+        ports:
+            - 3001:3001
+        volumes:
+            - /:/mnt/host:ro
