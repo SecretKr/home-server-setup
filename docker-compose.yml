@@ -2,15 +2,13 @@ services:
     # Homarr - Dashboard
     homarr:
         container_name: homarr
-        image: ghcr.io/ajnart/homarr:latest
+        image: ghcr.io/homarr-labs/homarr:latest
         restart: unless-stopped
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock # Allows Homarr to see container status
-            - ~/home-server-data/homarr/configs:/app/data/configs
-            - ~/home-server-data/homarr/icons:/app/public/icons
-            - ~/home-server-data/homarr/data:/data
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ~/home-server-data/homarr/appdata:/appdata
         environment:
-            - DISABLE_UPGRADE_MODAL=true
+            - SECRET_ENCRYPTION_KEY=${HOMARR_SECRET_KEY}
         ports:
             - 81:7575
 
