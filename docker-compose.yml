@@ -9,6 +9,8 @@ services:
             - ~/home-server-data/homarr/configs:/app/data/configs
             - ~/home-server-data/homarr/icons:/app/public/icons
             - ~/home-server-data/homarr/data:/data
+        environment:
+            - DISABLE_UPGRADE_MODAL=true
         ports:
             - 81:7575
 
