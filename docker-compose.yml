@@ -1,14 +1,16 @@
 services:
-    # Homer - Web UI
-    dashboard:
-        image: b4bz/homer
-        container_name: dashboard
+    # Homarr - Dashboard
+    homarr:
+        container_name: homarr
+        image: ghcr.io/ajnart/homarr:latest
         restart: unless-stopped
         volumes:
-            - ./configs/homer:/www/assets
+            - /var/run/docker.sock:/var/run/docker.sock # Allows Homarr to see container status
+            - ~/home-server-data/homarr/configs:/app/data/configs
+            - ~/home-server-data/homarr/icons:/app/public/icons
+            - ~/home-server-data/homarr/data:/data
         ports:
-            - "127.0.0.1:81:8080"
-        user: "1000:1000"
+            - 80:7575
 
     # Portainer - Web UI for managing Docker
     portainer:
@@ -112,26 +114,3 @@ services:
         devices:
             # Hardware Acceleration (Intel QuickSync)
             - /dev/dri:/dev/dri
-
-    # Beszel Hub - Web Dashboard
-    beszel-hub:
-        image: henrygd/beszel:latest
-        container_name: beszel-hub
-        restart: unless-stopped
-        ports:
-            - 8090:8090
-        volumes:
-            - ~/home-server-data/beszel/hub:/beszel_data
-
-    # Beszel Agent - Resource Monitoring
-    beszel-agent:
-        image: henrygd/beszel-agent:latest
-        container_name: beszel-agent
-        restart: unless-stopped
-        network_mode: host
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock:ro
-            - /:/host:ro
-        environment:
-            - PORT=45876
-            - KEY=${BESZEL_AGENT_KEY}
